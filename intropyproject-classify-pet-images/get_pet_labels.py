@@ -18,6 +18,8 @@
 ##
 # Imports python modules
 from os import listdir
+from typing import Dict, List
+
 
 # TODO 2: Define get_pet_labels function below please be certain to replace None
 #       in the return statement with results_dic dictionary that you create 
@@ -42,4 +44,28 @@ def get_pet_labels(image_dir):
     """
     # Replace None with the results_dic dictionary that you created with this
     # function
-    return None
+    # Creates list of files in directory
+    filenames = listdir(image_dir)
+    results_dic = dict()
+
+    for filename in filenames:
+        # If filename start with "." skips
+        if filename.startswith('.'):
+            continue
+        # Split the filename to get the label
+        label_parts = filename.lower().split('_')
+        # Initialize an empty list to hold the alphabetic parts
+        pet_label_parts = []
+        # Loop through each part and filter out non-alphabetic parts
+        for part in pet_label_parts:
+            if part.isalpha():
+                label_parts.append(part)
+        # Join the filtered parts with a space
+        pet_label = ' '.join(label_parts)
+        # If filename doesn't already exist in dictionary, add filename and label to result dictionary
+        if filename not in results_dic:
+            results_dic[filename] = [pet_label]
+        else:
+            # Print an error message if duplicate files exist
+            print("** Warning: Duplicate files exist in directory:", filename)
+    return results_dic
