@@ -75,7 +75,7 @@ def adjust_results4_isadog(results_dic, dogfile):
         # Reads in dognames from first line in file
         line = infile.readline()
         while line != "":
-            line.rstrip()  # 4a. remove newline character
+            line = line.rstrip('\n')  # 4a. remove newline character
             # 4b. if dogname (line) does not exists within dognames_dic
             if line not in dognames_dic:
                 dognames_dic[line] = 1  # Add the dogname to dognames_dic with the value of 1
