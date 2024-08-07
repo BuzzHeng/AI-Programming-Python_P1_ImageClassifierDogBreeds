@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/classify_images.py
 #                                                                             
-# PROGRAMMER: 
-# DATE CREATED:                                 
+# PROGRAMMER: LEE YUAN HENG
+# DATE CREATED: 2024-08-07
 # REVISED DATE: 
 # PURPOSE: Create a function classify_images that uses the classifier function 
 #          to create the classifier labels and then compares the classifier 
@@ -22,13 +22,15 @@
 ##
 # Imports classifier function for using CNN to classify images 
 from classifier import classifier 
+import os
+
 
 # TODO 3: Define classify_images function below, specifically replace the None
 #       below by the function definition of the classify_images function. 
 #       Notice that this function doesn't return anything because the 
 #       results_dic dictionary that is passed into the function is a mutable 
 #       data type so no return is needed.
-# 
+#
 def classify_images(images_dir, results_dic, model):
     """
     Creates classifier labels with classifier function, compares pet labels to 
@@ -65,4 +67,19 @@ def classify_images(images_dir, results_dic, model):
      Returns:
            None - results_dic is mutable data type so no return needed.         
     """
-    None 
+    for key in results_dic:
+        # Concatenate images_dir with filename to get full path to image file
+        image_path = os.path.join(images_dir, key)
+        # 3a. Use the classifier function to classify the images
+        model_label = classifier(image_path, model)
+        # 3b. Process the model_label to match the pet label format
+        model_label = model_label.lower().strip()
+        # Defines truth as pet image label
+        truth = results_dic[key][0]
+        # 3c. Check if pet label matches classifier label and extend the results_dic
+        if truth in model_label:
+            results_dic[key].extend([model_label, 1])
+        # 3d. If not a match, extend the results_dic with the classifier label and 0
+        else:
+            results_dic[key].extend([model_label, 0])
+
